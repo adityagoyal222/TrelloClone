@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trello_clone/models/user.dart';
 import 'package:trello_clone/screens/home/home.dart';
-import 'package:trello_clone/services.dart/auth.dart';
+import 'package:trello_clone/services/auth.dart';
 import 'package:trello_clone/shared/loading.dart';
 
 class SignUp extends StatefulWidget {

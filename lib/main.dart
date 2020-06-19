@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trello_clone/models/user.dart';
 import 'package:trello_clone/screens/authentication/authenticate.dart';
-import 'package:trello_clone/services.dart/auth.dart';
+import 'package:trello_clone/services/auth.dart';
 
 void main() => runApp(MyApp());
 
