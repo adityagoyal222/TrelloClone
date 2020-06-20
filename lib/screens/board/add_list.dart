@@ -4,15 +4,19 @@ import 'package:trello_clone/models/user.dart';
 import 'package:trello_clone/services/database.dart';
 import 'package:trello_clone/shared/loading.dart';
 
-class AddBoard extends StatefulWidget {
+class AddList extends StatefulWidget {
+
+  final String boardName;
+  AddList({this.boardName});
   @override
-  _AddBoardState createState() => _AddBoardState();
+  _AddListState createState() => _AddListState();
 }
 
-class _AddBoardState extends State<AddBoard> {
+class _AddListState extends State<AddList> {
+
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
-  String _boardName;
+  String _listName;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class _AddBoardState extends State<AddBoard> {
           },
         ),
         title: Text(
-          'Create Board',
+          'Add List',
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'Lato',
@@ -49,7 +53,7 @@ class _AddBoardState extends State<AddBoard> {
             children: <Widget>[
               SizedBox(height: 20.0),
               Text(
-                'Board Name',
+                'List Name',
                 style: TextStyle(
                   color: Colors.green[600],
                   fontFamily: 'Lato',
@@ -59,9 +63,9 @@ class _AddBoardState extends State<AddBoard> {
                 textAlign: TextAlign.left,
               ),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter a Board Name' : null,
+                validator: (val) => val.isEmpty ? 'Enter a List Name' : null,
                 onChanged: (val) {
-                  setState(() => _boardName = val);
+                  setState(() => _listName = val);
                 },
                 style: TextStyle(
                   color: Colors.black,
@@ -82,9 +86,10 @@ class _AddBoardState extends State<AddBoard> {
                         fontWeight: FontWeight.w600),
                   ),
                   onPressed: () async {
+                    print(widget.boardName);
                     if (_formKey.currentState.validate()) {
                       loading = true;
-                      await DatabaseService(uid: user.uid).addBoard(_boardName);
+                      await DatabaseService(uid: user.uid).addList(widget.boardName, _listName);
                       Navigator.pop(context);
                     }
                   },

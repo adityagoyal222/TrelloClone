@@ -12,19 +12,21 @@ class HomeBoard extends StatefulWidget {
 }
 
 class _HomeBoardState extends State<HomeBoard> {
-  
   @override
   Widget build(BuildContext context) {
     //final boards = Provider.of<List<Board>>(context) ?? [];
 
     User user = Provider.of<User>(context);
 
-    DatabaseService databaseServices = DatabaseService(uid: user.uid);
-    //final result = _auth.showBoard();
-    Stream<List<Board>> result = databaseServices.getBoardName();
- 
-    return StreamProvider(
-      create: (BuildContext context) => databaseServices.getBoardName(),
+    if (user == null) {
+      return Loading();
+    } else {
+      DatabaseService databaseServices = DatabaseService(uid: user.uid);
+      //final result = _auth.showBoard();
+      Stream<List<Board>> result = databaseServices.getBoardName();
+
+      return StreamProvider(
+        create: (BuildContext context) => result,
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +53,8 @@ class _HomeBoardState extends State<HomeBoard> {
               ),
             ],
           ),
-        )
-    );
+        ),
+      );
+    }
   }
 }

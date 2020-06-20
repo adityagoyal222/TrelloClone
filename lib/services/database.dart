@@ -39,17 +39,17 @@ class DatabaseService {
         .setData({'name': cardName});
   }
 
-  Future<void> deleteBoard(String boardName) async {
-    try {
-      return await trelloCollection
-          .document(uid)
-          .collection('Boards')
-          .document(boardName)
-          .delete();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // Future<void> deleteBoard(String boardName) async {
+  //   try {
+  //     return await trelloCollection
+  //         .document(uid)
+  //         .collection('Boards')
+  //         .document(boardName)
+  //         .delete();
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   Future<void> deleteCard(
       String boardName, String listName, String cardName) async {
@@ -77,4 +77,31 @@ Stream<List<Board>> getBoardName() {
     .map((document) => Board.fromJson(document.data))
     .toList());
 }
+
+Stream<List<Lists>> getListName(String boardName) {
+  return trelloCollection
+    .document(uid)
+    .collection('Boards')
+    .document(boardName)
+    .collection('Lists')
+    .snapshots()
+    .map((snapShot) => snapShot.documents
+    .map((document) => Lists.fromJson(document.data))
+    .toList());
+}
+
+Stream<List<Cards>> getCardName(String boardName, String listName) {
+  return trelloCollection
+    .document(uid)
+    .collection('Boards')
+    .document(boardName)
+    .collection('Lists')
+    .document(listName)
+    .collection('Cards')
+    .snapshots()
+    .map((snapShot) => snapShot.documents
+    .map((document) => Cards.fromJson(document.data))
+    .toList());
+}
+
 }
